@@ -44,7 +44,6 @@ function dragBody( event )
 	touch.dragBody( event, { minY = display.contentHeight / 2 + 100 } )
 end
 
-
 function spawn_ball()
 	
 	ball = display.newImageRect( "resources/marble.png", 32, 32 )

@@ -6,7 +6,9 @@
 
 local factory = require("factory")
 local storyboard = require( "storyboard" )
-local level = require("level")
+local Level = require("level")
+local Ship = require("ship")
+local movieclip = require("movieclip")
 local scene = storyboard.newScene()
 
 -- include Corona's "physics" library
@@ -28,6 +30,8 @@ local maxPoints = 5
 local lineThickness = 10
 local lineFadeTime = 200
 local endPoints = {}
+
+local bullets = display.newGroup()
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -51,14 +55,17 @@ function scene:createScene( event )
 	local background3 = display.newImage( "space.jpg" )
 	background3.x, background3.y = 160, 240
 	
-	level.decorate(group)
+	--background
+	Level.decorate(group)
 	group:setup_walls()
 	
 	factory.spawn_ball()
-
-	
 	timer.performWithDelay( 5000, factory.spawn_big_tri, 10 )
-	
+
+	--ship
+	local player_ship = movieclip.newAnim({'shipA.png', 'shipB.png'})
+	Ship.decorate(player_ship)
+	player_ship:play()
 	
 	--the update function will control most everything that happens in our game
 	--this will be called every frame(30 frames per second in our case, which is the Corona SDK default)
