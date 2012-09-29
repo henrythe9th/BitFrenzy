@@ -16,7 +16,8 @@ physics.start(); physics.pause()
 --------------------------------------------
 
 -- forward declarations and other locals
-local screenW, screenH, halfW = display.contentWidth, display.contentHeight, display.contentWidth*0.5
+local screenW, screenH, halfW, halfH = display.contentWidth, display.contentHeight, display.contentWidth*0.5, display.contentHeight * 0.5
+local minY = halfH + 100
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -49,7 +50,7 @@ function scene:createScene( event )
 	block.x, block.y = 150, 400
 	
 	local function dragBody( event )
-		touch.dragBody( event, { minY = 300 } )
+		touch.dragBody( event, { minY = minY} )
 	end
 	
 	
