@@ -28,31 +28,28 @@ local screenW, screenH, halfW = display.contentWidth, display.contentHeight, dis
 function scene:createScene( event )
 	local group = self.view
 
+	physics.setGravity(0,0);
+	
 	-- create a grey rectangle as the backdrop
 	local background = display.newRect( 0, 0, screenW, screenH )
 	background:setFillColor( 128 )
 	
 	-- make a crate (off-screen), position it, and rotate slightly
-	local crate = display.newImageRect( "crate.png", 90, 90 )
-	crate.x, crate.y = 160, -100
-	crate.rotation = 15
+	local block = display.newImageRect( "resources/pink_block.png", 32, 32 )
+	block.x, block.y = 150, 400
 	
-	-- add physics to the crate
-	physics.addBody( crate, { density=1.0, friction=0.3, bounce=0.3 } )
+	local function dragBody( event )
+		touch.dragBody( event )
+	end
+
+	physics.addBody( block, { density=1.0, friction=0.3, bounce=0.3 } )
 	
-	-- create a grass object and add physics (with custom shape)
-	local grass = display.newImageRect( "grass.png", screenW, 82 )
-	grass:setReferencePoint( display.BottomLeftReferencePoint )
-	grass.x, grass.y = 0, display.contentHeight
-	
-	-- define a shape that's slightly shorter than image bounds (set draw mode to "hybrid" or "debug" to see)
-	local grassShape = { -halfW,-34, halfW,-34, halfW,34, -halfW,34 }
-	physics.addBody( grass, "static", { friction=0.3, shape=grassShape } )
-	
-	-- all display objects must be inserted into group
 	group:insert( background )
-	group:insert( grass)
-	group:insert( crate )
+	group:insert( block )
+	
+	block:applyTorque( 10 )
+	
+	block:addEventListener("touch", dragBody);
 end
 
 -- Called immediately after scene has moved onscreen:

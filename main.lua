@@ -4,6 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
+local touch = require("touch")
+
 -- hide the status bar
 display.setStatusBar( display.HiddenStatusBar )
 
