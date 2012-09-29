@@ -34,8 +34,6 @@ local bullets = display.newGroup()
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
-
-	factory.set_group( group )
 	
 	physics.setGravity(0,0.1);
 	
@@ -51,6 +49,7 @@ function scene:createScene( event )
 	Level.decorate(group)
 	group:setup_walls()
 	
+
 	--ship
 	local player_ship = movieclip.newAnim({'shipA.png', 'shipB.png'})
 	Ship.decorate(player_ship)
@@ -64,6 +63,11 @@ function scene:createScene( event )
 	local function dragBody( event )
 		touch.dragBody( event, { minY = minY} )
 	end
+
+	factory.spawn_big_projectile()
+	factory.spawn_big_tri( 250, 30 )
+	factory.spawn_big_tri( 150, 100 )
+	factory.spawn_big_tri( 60, 30 )
 	
 	
 	--the update function will control most everything that happens in our game
@@ -103,20 +107,11 @@ function scene:createScene( event )
 	--how many times to call(-1 means forever))
 	timer.performWithDelay(1, update, -1)
 	
-	
-	physics.addBody( block, { density=1.0, friction=0.3, bounce=0.3 } )
-	
-	
+
 	-- all display objects must be inserted into group
 	group:insert( background1 )
 	group:insert( background2 )
 	group:insert( background3 )
-	
-	group:insert( block )
-	
-	block:applyTorque( 10 )
-	
-	block:addEventListener("touch", dragBody)
 
 end
 

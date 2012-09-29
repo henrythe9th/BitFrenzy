@@ -52,6 +52,7 @@ function dragBody( event, params )
 	
 	elseif body.isFocus then
 		if "moved" == phase then
+			
 			if params and event.y >= params.minY  then
 				-- Update the joint to track the touch
 				body.tempJoint:setTarget( event.x, event.y )
