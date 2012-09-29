@@ -6,6 +6,7 @@
 
 local factory = require("factory")
 local storyboard = require( "storyboard" )
+local level = require("level")
 local scene = storyboard.newScene()
 
 -- include Corona's "physics" library
@@ -15,7 +16,8 @@ physics.start(); physics.pause()
 --------------------------------------------
 
 -- forward declarations and other locals
-local screenW, screenH, halfW = display.contentWidth, display.contentHeight, display.contentWidth*0.5
+local screenW, screenH, halfW, halfH = display.contentWidth, display.contentHeight, display.contentWidth*0.5, display.contentHeight * 0.5
+local minY = halfH + 100
 -- Audio for slash sound (sound you hear when user swipes his/her finger across the screen)
 local slashSounds = {slash1 = audio.loadSound("slash1.wav"), slash2 = audio.loadSound("slash2.wav"), slash3 = audio.loadSound("slash3.wav")}
 local slashSoundEnabled = true -- sound should be enabled by default on startup
@@ -26,6 +28,7 @@ local maxPoints = 5
 local lineThickness = 10
 local lineFadeTime = 200
 local endPoints = {}
+
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 -- 
@@ -37,8 +40,8 @@ local endPoints = {}
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
-
-	physics.setGravity(0,0);
+	
+	physics.setGravity(0,0.1);
 	
 	-- display a background image
 	local background1 = display.newImage( "space.jpg" )
@@ -48,15 +51,13 @@ function scene:createScene( event )
 	local background3 = display.newImage( "space.jpg" )
 	background3.x, background3.y = 160, 240
 	
+	level.decorate(group)
+	group:setup_walls()
 	
-	factory.spawn_big_tri();
-	
-	local block = display.newImageRect( "resources/pink_block.png", 32, 32 )
-	block.x, block.y = 150, 400
-	
-	local function dragBody( event )
-		touch.dragBody( event )
-	end
+	factory.spawn_big_projectile()
+	factory.spawn_big_tri( 250, 30 )
+	factory.spawn_big_tri( 150, 100 )
+	factory.spawn_big_tri( 60, 30 )
 	
 	
 	--the update function will control most everything that happens in our game
@@ -96,20 +97,11 @@ function scene:createScene( event )
 	--how many times to call(-1 means forever))
 	timer.performWithDelay(1, update, -1)
 	
-	
-	physics.addBody( block, { density=1.0, friction=0.3, bounce=0.3 } )
-	
-	
+
 	-- all display objects must be inserted into group
 	group:insert( background1 )
 	group:insert( background2 )
 	group:insert( background3 )
-	
-	group:insert( block )
-	
-	block:applyTorque( 10 )
-	
-	block:addEventListener("touch", dragBody)
 
 end
 

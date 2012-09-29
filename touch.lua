@@ -43,13 +43,19 @@ function dragBody( event, params )
 				-- Possible values: 0 (no damping) to 1.0 (critical damping)
 				body.tempJoint.dampingRatio = params.dampingRatio
 			end
+			
+			--if params.minDeltaY then
+				
+			--end
 		end
 	
 	elseif body.isFocus then
 		if "moved" == phase then
-		
-			-- Update the joint to track the touch
-			body.tempJoint:setTarget( event.x, event.y )
+			
+			if params and event.y >= params.minY  then
+				-- Update the joint to track the touch
+				body.tempJoint:setTarget( event.x, event.y )
+			end
 
 		elseif "ended" == phase or "cancelled" == phase then
 			stage:setFocus( body, nil )
