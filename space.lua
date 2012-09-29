@@ -6,6 +6,7 @@
 
 local factory = require("factory")
 local storyboard = require( "storyboard" )
+local level = require("level")
 local scene = storyboard.newScene()
 
 -- include Corona's "physics" library
@@ -15,7 +16,8 @@ physics.start(); physics.pause()
 --------------------------------------------
 
 -- forward declarations and other locals
-local screenW, screenH, halfW = display.contentWidth, display.contentHeight, display.contentWidth*0.5
+local screenW, screenH, halfW, halfH = display.contentWidth, display.contentHeight, display.contentWidth*0.5, display.contentHeight * 0.5
+local minY = halfH + 100
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -41,6 +43,8 @@ function scene:createScene( event )
 	local background3 = display.newImage( "space.jpg" )
 	background3.x, background3.y = 160, 240
 	
+	level.decorate(group)
+	group:setup_walls()
 	
 	factory.spawn_big_tri( 130, 150 )
 
@@ -48,7 +52,7 @@ function scene:createScene( event )
 	block.x, block.y = 150, 400
 	
 	local function dragBody( event )
-		touch.dragBody( event )
+		touch.dragBody( event, { minY = minY} )
 	end
 	
 	
