@@ -31,7 +31,9 @@ local minY = halfH + 100
 function scene:createScene( event )
 	local group = self.view
 
-	physics.setGravity(0,0);
+	factory.set_group( group )
+	
+	physics.setGravity(0,0.1);
 	
 	-- display a background image
 	local background1 = display.newImage( "space.jpg" )
