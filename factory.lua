@@ -1,6 +1,8 @@
 -- gameUI library
 module(..., package.seeall)
 
+local Ball = require("ball")
+
 local physics = require "physics"
 
 function damage( self, event )
@@ -46,17 +48,18 @@ end
 
 function spawn_ball()
 	
-	ball = display.newImageRect( "resources/marble.png", 32, 32 )
-	ball.x, ball.y = 150, 400
-	physics.addBody( ball, { density=1.0, friction=0.3, bounce=0.3 } )
+	ball_weapon = display.newImageRect( "resources/marble.png", 32, 32 )
+	Ball.decorate(ball_weapon, { x = 150, y = 400})
+	--ball.x, ball.y = 150, 400
+	--physics.addBody( ball, { density=1.0, friction=0.3, bounce=0.3 } )
 
-	ball.name = "ball"
-	ball.dmg = 0
+	--ball.name = "ball"
+	--ball.dmg = 0
 	
-	ball:addEventListener("touch", dragBody)
+	--ball:addEventListener("touch", dragBody)
 	
-	ball.collision = damage
-	ball:addEventListener( "collision", projectile ) 
+	--ball.collision = damage
+	--ball:addEventListener( "collision", projectile ) 
 end
 
 

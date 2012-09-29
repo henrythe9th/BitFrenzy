@@ -27,7 +27,7 @@ local minTimeBetweenSlashes = 150 -- Minimum amount of time in between each slas
 local minDistanceForSlashSound = 50 -- Amount of pixels the users finger needs to travel in one frame in order to play a slash sound
 local maxSlashBoundHeigh = 300 -- Max height of the area that a user can slash (measured from the top of the screen)
 local maxPoints = 5
-local lineThickness = 10
+local lineThickness = 5
 local lineFadeTime = 200
 local endPoints = {}
 
