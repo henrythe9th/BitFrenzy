@@ -28,6 +28,8 @@ local screenW, screenH, halfW = display.contentWidth, display.contentHeight, dis
 function scene:createScene( event )
 	local group = self.view
 
+	physics.setGravity(0,0);
+	
 	-- display a background image
 	local background1 = display.newImage( "space.jpg" )
 	background1.x, background1.y = 160, -760
@@ -36,6 +38,12 @@ function scene:createScene( event )
 	local background3 = display.newImage( "space.jpg" )
 	background3.x, background3.y = 160, 240
 	
+	local block = display.newImageRect( "resources/pink_block.png", 32, 32 )
+	block.x, block.y = 150, 400
+	
+	local function dragBody( event )
+		touch.dragBody( event )
+	end
 	
 	--the update function will control most everything that happens in our game
 	--this will be called every frame(30 frames per second in our case, which is the Corona SDK default)
@@ -74,11 +82,19 @@ function scene:createScene( event )
 	--how many times to call(-1 means forever))
 	timer.performWithDelay(1, update, -1)
 	
-
+	physics.addBody( block, { density=1.0, friction=0.3, bounce=0.3 } )
+	
+	
 	-- all display objects must be inserted into group
 	group:insert( background1 )
 	group:insert( background2 )
 	group:insert( background3 )
+	
+	group:insert( block )
+	
+	block:applyTorque( 10 )
+	
+	block:addEventListener("touch", dragBody);
 
 end
 
