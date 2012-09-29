@@ -19,7 +19,7 @@ end
 
 function tri_explode( self, event )
 
-	if ( event.other.name == "big_p" ) then
+	if ( event.other.name == "ball" ) then
 	
 		if ( self ) then
 			local x = self.x
@@ -44,26 +44,27 @@ function dragBody( event )
 	touch.dragBody( event, { minY = display.contentHeight / 2 + 100 } )
 end
 
+function spawn_ball()
+	
+	ball = display.newImageRect( "resources/marble.png", 32, 32 )
+	ball.x, ball.y = 150, 400
+	physics.addBody( ball, { density=1.0, friction=0.3, bounce=0.3 } )
 
-function spawn_big_projectile()
+	ball.name = "ball"
+	ball.dmg = 0
 	
-	projectile = display.newImageRect( "resources/pink_block.png", 32, 32 )
-	projectile.x, projectile.y = 150, 400
-	physics.addBody( projectile, { density=1.0, friction=0.3, bounce=0.3 } )
-
-	projectile.name = "big_p"
-	projectile.dmg = 0
+	ball:addEventListener("touch", dragBody)
 	
-	projectile:addEventListener("touch", dragBody)
-	
-	projectile.collision = damage
-	projectile:addEventListener( "collision", projectile ) 
+	ball.collision = damage
+	ball:addEventListener( "collision", projectile ) 
 end
 
 
-function spawn_big_tri( x, y)
+function spawn_big_tri()
 	
 	tri = display.newImage( "resources/tri_large.png", 128, 128 )
+	x = math.random(50, display.contentWidth-50)
+	y = math.random(30, 60)
 	tri.x, tri.y = x, y
 	
 	physics.addBody( tri, { density=5.0, friction=0.5, bounce=0.1 } )
