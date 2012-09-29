@@ -20,6 +20,7 @@ local slashSounds = {slash1 = audio.loadSound("slash1.wav"), slash2 = audio.load
 local slashSoundEnabled = true -- sound should be enabled by default on startup
 local minTimeBetweenSlashes = 150 -- Minimum amount of time in between each slash sound
 local minDistanceForSlashSound = 50 -- Amount of pixels the users finger needs to travel in one frame in order to play a slash sound
+local maxSlashBoundHeigh = 300 -- Max height of the area that a user can slash (measured from the top of the screen)
 local maxPoints = 5
 local lineThickness = 10
 local lineFadeTime = 200
@@ -106,9 +107,10 @@ function scene:createScene( event )
 
 end
 
-
+--Slashing Events
 function drawSlashLine(event)
 
+	if (event.y >= maxSlashBoundHeigh) then return false end
 	-- Play a slash sound
 	if(endPoints ~= nil and endPoints[1] ~= nil) then
 		local distance = math.sqrt(math.pow(event.x - endPoints[1].x, 2) + math.pow(event.y - endPoints[1].y, 2))
