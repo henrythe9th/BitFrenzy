@@ -54,10 +54,10 @@ function scene:createScene( event )
 	level.decorate(group)
 	group:setup_walls()
 	
-	factory.spawn_big_projectile()
-	factory.spawn_big_tri( 250, 30 )
-	factory.spawn_big_tri( 150, 100 )
-	factory.spawn_big_tri( 60, 30 )
+	factory.spawn_ball()
+
+	
+	timer.performWithDelay( 5000, factory.spawn_big_tri, 10 )
 	
 	
 	--the update function will control most everything that happens in our game
