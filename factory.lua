@@ -78,6 +78,7 @@ function spawn_mini_tri( r, x, y )
 	tri = display.newImage( "resources/tri_small.png", 32, 32 )
 	tri.x, tri.y = x, y
 	tri.rotation = r
+	tri.name = "small_tri"
 	
 	physics.addBody( tri, { density=1.0, friction=0.3, bounce=0.3 } )
 	

@@ -27,7 +27,13 @@ function decorate(obj, params)	--object to decorate
 	
 	--collison for bullet
 	function bulletCollision(event)
-		print("Bullet Collided with"..event.other.name) 
+		local other = event.other
+		--print("Bullet Collided with"..other.name) 
+		if other.name and other.name == "small_tri" then
+			other:removeSelf()
+			
+		end
+		obj.remove()
 		
 	end
 --destroy--------------------
