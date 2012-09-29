@@ -1,28 +1,20 @@
 -----------------------------------------------------------------------------------------
 --
--- menu.lua
+-- space.lua
 --
 -----------------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
--- include Corona's "widget" library
-local widget = require "widget"
+-- include Corona's "physics" library
+local physics = require "physics"
+physics.start(); physics.pause()
 
 --------------------------------------------
 
 -- forward declarations and other locals
-local playBtn
-
--- 'onRelease' event listener for playBtn
-local function onPlayBtnRelease()
-	
-	-- go to level1.lua scene
-	storyboard.gotoScene( "space", "fade", 500 )
-	
-	return true	-- indicates successful touch
-end
+local screenW, screenH, halfW = display.contentWidth, display.contentHeight, display.contentWidth*0.5
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -37,40 +29,64 @@ function scene:createScene( event )
 	local group = self.view
 
 	-- display a background image
-	local background = display.newImageRect( "background.jpg", display.contentWidth, display.contentHeight )
-	background:setReferencePoint( display.TopLeftReferencePoint )
-	background.x, background.y = 0, 0
+	local background1 = display.newImage( "space.jpg" )
+	background1.x, background1.y = 160, -760
+	local background2 = display.newImage( "space.jpg" )
+	background2.x, background2.y = 160, -240
+	local background3 = display.newImage( "space.jpg" )
+	background3.x, background3.y = 160, 240
 	
-	-- create/position logo/title image on upper-half of the screen
-	local titleLogo = display.newImageRect( "logo.png", 264, 42 )
-	titleLogo:setReferencePoint( display.CenterReferencePoint )
-	titleLogo.x = display.contentWidth * 0.5
-	titleLogo.y = 100
 	
-	-- create a widget button (which will loads level1.lua on release)
-	playBtn = widget.newButton{
-		label="Play Now",
-		labelColor = { default={255}, over={128} },
-		default="button.png",
-		over="button-over.png",
-		width=154, height=40,
-		onRelease = onPlayBtnRelease	-- event listener function
-	}
-	playBtn:setReferencePoint( display.CenterReferencePoint )
-	playBtn.x = display.contentWidth*0.5
-	playBtn.y = display.contentHeight - 125
+	--the update function will control most everything that happens in our game
+	--this will be called every frame(30 frames per second in our case, which is the Corona SDK default)
+	local function update( event )
 	
+		--updateBackgrounds will call a function made specifically to handle the background movement
+		updateBackgrounds()
+	
+	end
+	
+	function updateBackgrounds()
+		--background movement
+		background1.y = background1.y + (0.5)
+		background2.y = background2.y + (0.5)
+		background3.y = background3.y + (0.5)
+
+		--if the sprite has moved off the screen move it back to the
+		--other side so it will move back on
+		if(background1.y > 800) then
+			background1.y = -700
+		end
+
+		if(background2.y > 800) then
+			background2.y = -700
+		end
+		
+		if(background3.y > 800) then
+			background3.y = -700
+		end
+
+	end
+	
+	--this is how we call the update function, make sure that this line comes after the
+	--actual function or it will not be able to find it
+	--timer.performWithDelay(how often it will run in milliseconds, function to call,
+	--how many times to call(-1 means forever))
+	timer.performWithDelay(1, update, -1)
+	
+
 	-- all display objects must be inserted into group
-	group:insert( background )
-	group:insert( titleLogo )
-	group:insert( playBtn )
+	group:insert( background1 )
+	group:insert( background2 )
+	group:insert( background3 )
+
 end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
 	
-	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
+	physics.start()
 	
 end
 
@@ -78,7 +94,7 @@ end
 function scene:exitScene( event )
 	local group = self.view
 	
-	-- INSERT code here (e.g. stop timers, remove listenets, unload sounds, etc.)
+	physics.stop()
 	
 end
 
@@ -86,10 +102,8 @@ end
 function scene:destroyScene( event )
 	local group = self.view
 	
-	if playBtn then
-		playBtn:removeSelf()	-- widgets must be manually removed
-		playBtn = nil
-	end
+	package.loaded[physics] = nil
+	physics = nil
 end
 
 -----------------------------------------------------------------------------------------
