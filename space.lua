@@ -74,19 +74,12 @@ function scene:createScene( event )
 	--how many times to call(-1 means forever))
 	timer.performWithDelay(1, update, -1)
 	
-	-- make a crate (off-screen), position it, and rotate slightly
-	local crate = display.newImageRect( "hexagon.png", 900, 900 )
-	crate.x, crate.y = 160, -100
-	crate.rotation = 15
-	
-	-- add physics to the crate
-	physics.addBody( crate, { density=1.0, friction=0.3, bounce=0.3 } )
-	
+
 	-- all display objects must be inserted into group
 	group:insert( background1 )
 	group:insert( background2 )
 	group:insert( background3 )
-	group:insert( crate )
+
 end
 
 -- Called immediately after scene has moved onscreen:
