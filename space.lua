@@ -42,8 +42,8 @@ function scene:createScene( event )
 	background3.x, background3.y = 160, 240
 	
 	
-	factory.spawn_big_tri();
-	
+	factory.spawn_big_tri( 130, 150 )
+
 	local block = display.newImageRect( "resources/pink_block.png", 32, 32 )
 	block.x, block.y = 150, 400
 	

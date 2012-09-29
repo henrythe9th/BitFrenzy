@@ -29,10 +29,10 @@ function tri_explode( self, event )
 	end
 end
 
-function spawn_big_tri()
+function spawn_big_tri( x, y)
 	
 	tri = display.newImage( "resources/tri_large.png", 128, 128 )
-	tri.x, tri.y = 150, 20
+	tri.x, tri.y = x, y
 	
 	physics.addBody( tri, { density=5.0, friction=0.5, bounce=0.1 } )
 	
