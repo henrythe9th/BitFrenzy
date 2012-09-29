@@ -6,7 +6,9 @@
 
 local factory = require("factory")
 local storyboard = require( "storyboard" )
-local level = require("level")
+local Level = require("level")
+local Ship = require("ship")
+local movieclip = require("movieclip")
 local scene = storyboard.newScene()
 
 -- include Corona's "physics" library
@@ -18,6 +20,8 @@ physics.start(); physics.pause()
 -- forward declarations and other locals
 local screenW, screenH, halfW, halfH = display.contentWidth, display.contentHeight, display.contentWidth*0.5, display.contentHeight * 0.5
 local minY = halfH + 100
+
+local bullets = display.newGroup()
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -43,8 +47,14 @@ function scene:createScene( event )
 	local background3 = display.newImage( "space.jpg" )
 	background3.x, background3.y = 160, 240
 	
-	level.decorate(group)
+	--background
+	Level.decorate(group)
 	group:setup_walls()
+	
+	--ship
+	local player_ship = movieclip.newAnim({'shipA.png', 'shipB.png'})
+	Ship.decorate(player_ship)
+	player_ship:play()
 	
 	factory.spawn_big_tri();
 	
