@@ -4,6 +4,7 @@
 --
 -----------------------------------------------------------------------------------------
 
+local factory = require("factory")
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
@@ -47,8 +48,8 @@ function scene:createScene( event )
 	local background3 = display.newImage( "space.jpg" )
 	background3.x, background3.y = 160, 240
 	
-	local tri = display.newImage( "resources/tri_large.png", 128, 128 )
-	tri.x, tri.y = 150, 20
+	
+	factory.spawn_big_tri();
 	
 	local block = display.newImageRect( "resources/pink_block.png", 32, 32 )
 	block.x, block.y = 150, 400
@@ -57,12 +58,6 @@ function scene:createScene( event )
 		touch.dragBody( event )
 	end
 	
-	local function triExplode( event )
-		if ( tri ) then
-			tri:removeSelf()
-		end
-		
-	end
 	
 	--the update function will control most everything that happens in our game
 	--this will be called every frame(30 frames per second in our case, which is the Corona SDK default)
@@ -101,7 +96,7 @@ function scene:createScene( event )
 	--how many times to call(-1 means forever))
 	timer.performWithDelay(1, update, -1)
 	
-	physics.addBody( tri, { density=5.0, friction=0.5, bounce=0.1 } )
+	
 	physics.addBody( block, { density=1.0, friction=0.3, bounce=0.3 } )
 	
 	
@@ -115,7 +110,6 @@ function scene:createScene( event )
 	block:applyTorque( 10 )
 	
 	block:addEventListener("touch", dragBody)
-	tri:addEventListener("postCollision", triExplode)
 
 end
 
