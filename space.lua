@@ -25,6 +25,9 @@ local maxPoints = 5
 local lineThickness = 10
 local lineFadeTime = 200
 local endPoints = {}
+
+--acelerometer
+local moveBlock = {}
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 -- 
@@ -177,6 +180,14 @@ function scene:destroyScene( event )
 	physics = nil
 end
 
+
+
+
+--move block from accelerometer
+function moveBlock:accelerometer(e)
+	-- Accelerometer Movement
+	block.x = display.contentCenterX + (display.contentCenterX * (e.xGravity*3))
+end
 -----------------------------------------------------------------------------------------
 -- END OF YOUR IMPLEMENTATION
 -----------------------------------------------------------------------------------------
@@ -196,6 +207,7 @@ scene:addEventListener( "exitScene", scene )
 scene:addEventListener( "destroyScene", scene )
 
 Runtime:addEventListener("touch", drawSlashLine)
+Runtime:addEventListener("accelerometer", moveBlock)
 -----------------------------------------------------------------------------------------
 
 return scene
