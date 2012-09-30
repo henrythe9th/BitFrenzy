@@ -20,7 +20,7 @@ function decorate(obj, params)	--object to decorate
 	local stage = display.getCurrentStage()
 	
 	function moveShip(event)
-		local targetX = obj.x + 100 * event.xGravity
+		local targetX = obj.x + 50 * event.xGravity
 			if targetX >= obj.width and targetX <= screenW - obj.width then
 				obj.x = targetX
 				if obj.ball ~= nil and obj.ball.isDragged == false then
@@ -33,9 +33,14 @@ function decorate(obj, params)	--object to decorate
 	function armBullet( event )
 		
 		if event.phase == "began" then
+			weapon2_down.isVisible = true
+			
 			shoot = function () return shootBullet(event) end
 			bullet_timer = timer.performWithDelay(333, shoot, -1)
 		elseif event.phase == "ended" then
+			
+			weapon2_down.isVisible = false
+		
 			timer.cancel(bullet_timer)
 		end
 	end
@@ -50,7 +55,11 @@ function decorate(obj, params)	--object to decorate
 	
 	--load Ball weapon
 	function loadBall( event )
-		if event.phase == "ended" then
+		
+		if event.phase == "began" then
+			weapon1_down.isVisible = true
+		elseif event.phase == "ended" then
+			weapon1_down.isVisible = false
 			--the tap must not occure on the ship and must occur near the bottom of the screen
 			if (event.x < obj.x or event.x > obj.x+obj.width)
 				and (event.y < obj.y or event.y > obj.y + obj.height) and event.y >= obj.y - 50 then
@@ -74,11 +83,14 @@ function decorate(obj, params)	--object to decorate
 	
 	bullet_timer = 0
 	
-	Runtime:addEventListener("tap", loadBall)
-	
-
 	weapon1 = display.newImage("resources/button1.png", display.contentWidth - 42, display.contentHeight - 84)
+	weapon1_down = display.newImage("resources/button1_down.png", display.contentWidth - 42, display.contentHeight - 84)
+	weapon1_down.isVisible = false
+	
 	weapon2 = display.newImage("resources/button2.png", display.contentWidth - 42, display.contentHeight - 42)
+	weapon2_down = display.newImage("resources/button2_down.png", display.contentWidth - 42, display.contentHeight - 42)
+	weapon2_down.isVisible = false
+	
 	
 	weapon1:addEventListener("touch", loadBall)
 	weapon2:addEventListener("touch", armBullet)
