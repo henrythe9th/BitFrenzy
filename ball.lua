@@ -50,15 +50,20 @@ function decorate(obj, params)	--object to decorate
 		
 	end
 --destroy--------------------
+	function removeBall()
+		obj.remove()
+	end
+	
 	function obj:remove()
 		obj:removeEventListener("collision", ballCollision)
-		--timer.cancel(timerSource)
+		timer.cancel(timerSource)
 		obj:removeSelf()
+		obj = nil
 		
 	end
 	
-	
-	--timerSource = timer.performWithDelay(10, moveBullet, -1)
+	--remove ball after 5 sec if not already removed
+	timerSource = timer.performWithDelay(5000, removeBall, 1)
 	obj:addEventListener("touch", dragBall)
 	obj:addEventListener('collision', ballCollision)
 end
