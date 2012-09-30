@@ -112,11 +112,7 @@ function scene:createScene( event )
 	group:insert( background1 )
 	group:insert( background2 )
 	group:insert( background3 )
-<<<<<<< HEAD
 	group:insert( background4 )
-=======
-
->>>>>>> master
 end
 
 --Slashing Events
