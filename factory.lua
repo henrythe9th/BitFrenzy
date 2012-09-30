@@ -81,11 +81,16 @@ end
 
 function spawn_big_rect()
 
+	math.randomseed( os.time() )
+
 	x = math.random(50, display.contentWidth-50)
 	y = math.random(20, 50)
     
 	big_rect = display.newRect(x, y, 70, 32)
 	big_rect:setFillColor( 255, 255, 0 )
+	
+	big_rect.name = "big_rect"
+	big_rect.big = true
 	
 	big_rect.rotation = math.random(0, 355)
 	
@@ -94,6 +99,9 @@ function spawn_big_rect()
 end
 
 function spawn_big_tri()
+
+	math.randomseed( os.time() )
+
 	big_tri = display.newImage( "resources/tri_large.png" )
 	big_tri.name = "big_tri"
 	big_tri.big = true
@@ -111,6 +119,8 @@ end
 
 function spawn_mini_tri( x, y )
 
+	math.randomseed( os.time() )
+
 	tri = display.newImage( "resources/tri_small.png")
 	tri.x, tri.y = x, y
 	tri.rotation = math.random(0, 355)
@@ -126,13 +136,17 @@ function spawn_mini_tri( x, y )
 end
 
 function spawn_big_square()
-	big_square = display.newImage( "resources/square_large.png" )
+
+	math.randomseed( os.time() )
+
+	x = math.random(50, display.contentWidth-50)
+	y = math.random(20, 50)
+	
+	big_square = display.newRect( x, y, 50, 50 )
+	big_square:setFillColor(0, 255, 0)
 	big_square.name = "big_square"
 	big_square.big = true
 	
-	x = math.random(50, display.contentWidth-50)
-	y = math.random(20, 50)
-	big_square.x, big_square.y = x, y
 	big_square.rotation = math.random(0, 355)
 	
 	physics.addBody( big_square, { density = 5.0, friction=0.3, bounce = 0.1 } )
@@ -142,6 +156,9 @@ function spawn_big_square()
 end
 
 function spawn_mini_square( x, y )
+
+	math.randomseed( os.time() )
+
 	square = display.newImage( "resources/square_small.png" )
 	square.x, square.y = x, y
 	square.rotation = math.random(0,355)
