@@ -26,6 +26,10 @@ function decorate(obj, params)	--object to decorate
 	function ballCollision(event)
 		local other = event.other
 
+		if ( other.name == "score_wall" ) then 
+			return
+		end
+		
 		if ( event.phase == "ended" ) then
 		
 			obj.dmg = obj.dmg + 1

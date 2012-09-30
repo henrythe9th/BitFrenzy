@@ -69,6 +69,7 @@ function spawn_big_tri()
 	x = math.random(50, display.contentWidth-50)
 	y = math.random(30, 60)
 	tri.x, tri.y = x, y
+	tri.name = "big_tri"
 	
 	physics.addBody( tri, { density=5.0, friction=0.5, bounce=0.1 } )
 	

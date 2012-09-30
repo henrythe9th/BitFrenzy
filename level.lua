@@ -1,5 +1,23 @@
 module(..., package.seeall)
 local physics = require("physics")
+local score = require("score")
+
+function destroy ( event )
+	
+	local other = event.other
+	
+	if ( other and other.name ~= "bullet" and event.other.name ~= "ball" ) then
+		if (other.name == "small_tri") then
+			score.update( -1 )
+		elseif (other.name == "big_tri") then
+			score.update( -3 )
+		end
+		event.other:removeSelf()
+		
+		
+	end
+
+end
 
 --decorator--------------------
 function decorate(obj)	--object to decorate
@@ -19,5 +37,13 @@ function decorate(obj)	--object to decorate
 			physics.addBody(self.walls[i], "static", staticMaterial)
 			self:insert(self.walls[i])
 		end
+		
+		score_wall = display.newRect( 0, screenH - 50, screenW, 0)
+		physics.addBody( score_wall, "static", staticMaterial)
+		score_wall.name = "score_wall"
+		score_wall.isSensor = true
+		score_wall:addEventListener("collision", destroy)
+		
 	end
+	
 end
