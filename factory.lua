@@ -68,13 +68,29 @@ end
 
 function spawn_big_enemy()
 	
-	type = math.random(1,2)
+	type = math.random(1,3)
 	if ( type == 1) then
 		spawn_big_tri()
 	elseif ( type == 2 ) then
 		spawn_big_square()
+	elseif ( type == 3 ) then
+		spawn_big_rect()
 	end
 	
+end
+
+function spawn_big_rect()
+
+	x = math.random(50, display.contentWidth-50)
+	y = math.random(20, 50)
+    
+	big_rect = display.newRect(x, y, 70, 32)
+	big_rect:setFillColor( 255, 255, 0 )
+	
+	big_rect.rotation = math.random(0, 355)
+	
+	physics.addBody( big_rect, { density = 5.0, friction = 0.2, bounce = 0.1 } )
+
 end
 
 function spawn_big_tri()
@@ -84,7 +100,7 @@ function spawn_big_tri()
 	
 	x = math.random(50, display.contentWidth-50)
 	y = math.random(20, 50)
-	big_tri.x, big_tri.y = x, y
+	big_tri.rotation = math.random(0, 355)
 	
 	physics.addBody( big_tri, { density = 5.0, friction=0.3, bounce = 0.1 } )
 	
@@ -95,7 +111,7 @@ end
 
 function spawn_mini_tri( x, y )
 
-	tri = display.newImage( "resources/tri_small.png", 32, 32 )
+	tri = display.newImage( "resources/tri_small.png")
 	tri.x, tri.y = x, y
 	tri.rotation = math.random(0, 355)
 	tri.name = "small_tri"
@@ -117,6 +133,7 @@ function spawn_big_square()
 	x = math.random(50, display.contentWidth-50)
 	y = math.random(20, 50)
 	big_square.x, big_square.y = x, y
+	big_square.rotation = math.random(0, 355)
 	
 	physics.addBody( big_square, { density = 5.0, friction=0.3, bounce = 0.1 } )
 	
@@ -125,7 +142,7 @@ function spawn_big_square()
 end
 
 function spawn_mini_square( x, y )
-	square = display.newImage( "resources/square_small.png", 32, 32 )
+	square = display.newImage( "resources/square_small.png" )
 	square.x, square.y = x, y
 	square.rotation = math.random(0,355)
 	square.name = "small_square"
