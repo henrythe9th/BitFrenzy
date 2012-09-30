@@ -17,7 +17,7 @@ function decorate(obj)	--object to decorate
 	local stage = display.getCurrentStage()
 	
 	function moveShip(event)
-		local targetX = obj.x + event.xGravity
+		local targetX = obj.x + screenW * event.xGravity
 			if targetX >= obj.width and targetX <= screenW - obj.width then
 				obj.x = targetX
 				if obj.ball ~= nil and obj.ball.isDragged == false then
@@ -49,13 +49,14 @@ function decorate(obj)	--object to decorate
 	
 --destroy--------------------
 	function obj:remove()
-		obj.removeEventListener("touch", moveShip)
-		obj.removeEventListener("tap", shootBullet)
-		Runtime.removeEventListener("tap", loadBall)
+		Runtime:removeEventListener("accelerometer", moveShip)
+		obj:removeEventListener("tap", shootBullet)
+		Runtime:removeEventListener("tap", loadBall)
 		obj:removeSelf()
 	end
 	
-	obj:addEventListener("accelerometer", moveShip)
+	system.setAccelerometerInterval( 100 )
+	Runtime:addEventListener("accelerometer", moveShip)
 	obj:addEventListener("tap", shootBullet)
 	--obj:addEventListener("accelerometer", loadBall)
 	

@@ -19,7 +19,7 @@ local playBtn
 local function onPlayBtnRelease()
 	
 	-- go to level1.lua scene
-	storyboard.gotoScene( "space", "fade", 500 )
+	storyboard.gotoScene( "space", "slideDown", 500 )
 	
 	return true	-- indicates successful touch
 end
@@ -37,7 +37,7 @@ function scene:createScene( event )
 	local group = self.view
 
 	-- display a background image
-	local background = display.newImageRect( "background.jpg", display.contentWidth, display.contentHeight )
+	local background = display.newImageRect( "space.jpg", display.contentWidth, display.contentHeight )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
 	
