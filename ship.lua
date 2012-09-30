@@ -4,13 +4,18 @@ local Bullet = require("bullet")
 local Ball = require("ball")
 
 --decorator--------------------
-function decorate(obj)	--object to decorate
+function decorate(obj, params)	--object to decorate
 	local screenW = display.contentWidth
 	local screenH = display.contentHeight
 	obj.x = screenW * 0.5
 	obj.y = screenH - obj.height
 	obj.name = 'ship'
 	obj.ball = nil
+	obj:play()
+	
+	--if params and params.group then
+	--	params.group:insert(obj)
+	--end
 	
 	--move ship event handler
 	local stage = display.getCurrentStage()
@@ -60,4 +65,5 @@ function decorate(obj)	--object to decorate
 	--obj:addEventListener("accelerometer", loadBall)
 	
 	Runtime:addEventListener("tap", loadBall)
+
 end

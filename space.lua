@@ -9,6 +9,7 @@ local storyboard = require( "storyboard" )
 local Level = require("level")
 local Ship = require("ship")
 local movieclip = require("movieclip")
+local score = require("score")
 local scene = storyboard.newScene()
 
 -- include Corona's "physics" library
@@ -63,7 +64,7 @@ function scene:createScene( event )
 
 	--ship
 	local player_ship = movieclip.newAnim({'shipAlarge.png', 'shipBlarge.png'})
-	Ship.decorate(player_ship)
+	Ship.decorate(player_ship, {group = group})
 	player_ship:play()
 	
 	--the update function will control most everything that happens in our game
@@ -72,6 +73,11 @@ function scene:createScene( event )
 	
 		--updateBackgrounds will call a function made specifically to handle the background movement
 		updateBackgrounds()
+		
+		--if score is <= 0 then game over
+		if score.isGameOver() then
+			storyboard.gotoScene("menu")
+		end
 	
 	end
 	
@@ -170,6 +176,7 @@ function scene:exitScene( event )
 	local group = self.view
 	
 	physics.stop()
+	
 	
 end
 

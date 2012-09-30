@@ -15,7 +15,7 @@ function decorate(obj, params)	--object to decorate
 	
 	audio.play(shot)
 	
-	physics.addBody( obj, { density=1.0, friction=0.3, bounce=0.3 } )
+	--physics.addBody( obj, { density=1.0, friction=0.3, bounce=0.3 } )
 	
 	--moving of the ball along with the ship
 	function moveBall(event)
@@ -29,6 +29,7 @@ function decorate(obj, params)	--object to decorate
 	
 	--dragging of ball
 	function dragBall( event )
+		physics.addBody( obj, { density=1.0, friction=0.3, bounce=0.3 } )
 		touch.dragBody( event, { minY = display.contentHeight / 2 + 50, maxDeltaX = 25} )
 	end
 	
@@ -51,7 +52,9 @@ function decorate(obj, params)	--object to decorate
 	end
 --destroy--------------------
 	function removeBall()
-		obj.remove()
+		if obj.isDragged then
+			obj.remove()
+		end
 	end
 	
 	function obj:remove()
@@ -63,7 +66,7 @@ function decorate(obj, params)	--object to decorate
 	end
 	
 	--remove ball after 5 sec if not already removed
-	timerSource = timer.performWithDelay(5000, removeBall, 1)
+	timerSource = timer.performWithDelay(5000, removeBall, -1)
 	obj:addEventListener("touch", dragBall)
 	obj:addEventListener('collision', ballCollision)
 end
