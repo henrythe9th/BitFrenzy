@@ -29,7 +29,7 @@ function decorate(obj, params)	--object to decorate
 	
 	--dragging of ball
 	function dragBall( event )
-		touch.dragBody( event, { minY = display.contentHeight / 2 + 50, frequency = 20 } )
+		touch.dragBody( event, { minY = display.contentHeight / 2 + 50, maxDeltaX = 25} )
 	end
 	
 	--collison for ball

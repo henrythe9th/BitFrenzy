@@ -45,9 +45,6 @@ function dragBody( event, params )
 				body.tempJoint.dampingRatio = params.dampingRatio
 			end
 			
-			--if params.minDeltaY then
-				
-			--end
 		end
 	
 	elseif body.isFocus then
@@ -59,7 +56,20 @@ function dragBody( event, params )
 			end
 
 		elseif "ended" == phase or "cancelled" == phase then
-			body.tempJoint:setTarget( event.x, event.y )
+			
+			local targetX = event.x
+			if params then
+				local deltaX = math.abs(event.x - event.xStart)
+				if deltaX >= params.maxDeltaX then
+					if event.x < event.xStart then
+						targetX = event.xStart - params.maxDeltaX
+					else
+						targetX = event.xStart + params.maxDeltaX
+					end
+				end
+			end
+			body.tempJoint:setTarget( targetX, event.y )
+			
 			stage:setFocus( body, nil )
 			body.isFocus = false
 			
