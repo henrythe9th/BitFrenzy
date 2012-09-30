@@ -14,20 +14,6 @@ function setGroup( g )
 
 end
 
-function damage( self, event )
-
-	print ( self.dmg )
-
-	if ( event.phase == "ended" ) then
-	
-		self.dmg = self.dmg + 1
-		if ( self.dmg > 4 ) then
-			self:removeSelf()
-		end
-	end
-	
-end
-
 function tri_explode( self, event )
 
 	if ( event.other.name == "ball" ) then
@@ -102,12 +88,9 @@ function rect_split( self, event )
 end
 
 function error_touch( self, event )
-	--if self.isSliced == nil or self.isSliced == false then
-	--if event.phase == "ended" or event.phase == "cancelled" then
 	if self.lastSliced == nil or (os.difftime(os.time(), self.lastSliced) >= 0.15) then
 		audio.play(error_sound)
 		score.update(-1)
-		--self.isSliced = true
 		self.lastSliced = os.time()
 	end
 end
@@ -254,7 +237,7 @@ function spawn_mini_square( x, y )
 	local y_i = math.random(-10, 10)
 	square:applyLinearImpulse( x_i, y_i, square.x, square.y )
 	
-	group_insert( square )
+	group:insert( square )
 	
 end
 
