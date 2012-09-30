@@ -66,6 +66,28 @@ function square_explode( self, event )
 
 end
 
+function rect_split() 
+
+	if ( event.other.name == "ball" ) then
+	
+		if ( self) then
+			local x = self.x
+			local y = self.y
+			
+			spawn1 = function() return spawn_mini_rect( x-5, y ) end
+			spawn2 = function() return spawn_mini_rect( x+5, y ) end
+			
+			timer.performWithDelay(50, spawn1)
+			timer.performWithDelay(50, spawn2)
+			
+			self:removeSelf()
+			self = nil
+			
+		end
+	end
+
+end
+
 function spawn_big_enemy()
 	
 	type = math.random(1,3)
@@ -95,6 +117,23 @@ function spawn_big_rect()
 	big_rect.rotation = math.random(0, 355)
 	
 	physics.addBody( big_rect, { density = 5.0, friction = 0.2, bounce = 0.1 } )
+
+end
+
+function spawn_small_rect( x, y )
+	math.randomseed( os.time() )
+
+	small_rect = display.newRect( x, y, 35, 16 )
+	small_Rect.rotation = math.random(0, 355)
+	small_rect.name = "small_rect"
+	small_rect.big = false
+	
+	physics.addBody( small_rect , { density=1.0, friction=0.3, bounce=0.2 } )
+	
+	local x_i = math.random(-10, 10)
+	local y_i = math.random(-10, 10)
+	
+	small_rect:applyLinearImpulse( x_i, y_i, small_rect.x, small_rect.y )
 
 end
 
