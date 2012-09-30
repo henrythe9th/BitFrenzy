@@ -42,8 +42,10 @@ function decorate(obj, params)	--object to decorate
 	
 	--shoot bullet
 	function shootBullet( event)
-		local ship_bullet = display.newImage('bullet.png')
-		Bullet.decorate(ship_bullet, { x = obj.x, y = obj.y - obj.height + 10})
+		if obj.ball == nil or obj.ball.isDragged == true then
+			local ship_bullet = display.newImage('bullet.png')
+			Bullet.decorate(ship_bullet, { x = obj.x, y = obj.y - obj.height + 10})
+		end
 	end
 	
 	--load Ball weapon
