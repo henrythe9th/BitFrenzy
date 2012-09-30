@@ -12,7 +12,7 @@ function dragBody( event, params )
 	local phase = event.phase
 	local stage = display.getCurrentStage()
 
-	if body.dragged == true or event.yStart <= params.minY then return end
+	if body.isDragged == true or event.yStart <= params.minY then return end
 	if "began" == phase then
 		stage:setFocus( body, event.id )
 		body.isFocus = true
@@ -52,20 +52,20 @@ function dragBody( event, params )
 	
 	elseif body.isFocus then
 		if "moved" == phase then
-			
 			if params and event.y >= params.minY then
 				-- Update the joint to track the touch
-				body.tempJoint:setTarget( event.x, event.y )
+				--body.tempJoint:setTarget( event.x, event.y )
 				
 			end
 
 		elseif "ended" == phase or "cancelled" == phase then
+			body.tempJoint:setTarget( event.x, event.y )
 			stage:setFocus( body, nil )
 			body.isFocus = false
 			
 			-- Remove the joint when the touch ends			
 			body.tempJoint:removeSelf()
-			body.dragged = true
+			body.isDragged = true
 			
 			
 		end

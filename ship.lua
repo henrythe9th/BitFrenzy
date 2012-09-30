@@ -17,6 +17,10 @@ function decorate(obj)	--object to decorate
 	local stage = display.getCurrentStage()
 	
 	function moveShip(event)
+		--if obj.ball ~= nil then
+		--	obj.ball:moveBall(event)
+		--end
+		
 		local target = event.target
 		if event.phase == "began" then
 			--event.target.alpha = 0.5
@@ -25,6 +29,9 @@ function decorate(obj)	--object to decorate
 		elseif(event.phase == 'moved') then
 			if event.x >= obj.width and event.x <= screenW - obj.width then
 				obj.x = event.x
+				if obj.ball ~= nil and obj.ball.isDragged == false then
+					obj.ball.x = event.x
+				end
 			end
 		elseif event.phase == "ended" or event.phase == "cancelled" then
 			stage:setFocus(nil)

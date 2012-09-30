@@ -48,8 +48,8 @@ end
 
 function spawn_ball()
 	
-	ball_weapon = display.newImageRect( "resources/marble.png", 32, 32 )
-	Ball.decorate(ball_weapon, { x = 150, y = 400})
+	--ball_weapon = display.newImageRect( "resources/marble.png", 32, 32 )
+	--Ball.decorate(ball_weapon, { x = 150, y = 400})
 	--ball.x, ball.y = 150, 400
 	--physics.addBody( ball, { density=1.0, friction=0.3, bounce=0.3 } )
 
