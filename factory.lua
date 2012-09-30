@@ -66,23 +66,30 @@ function square_explode( self, event )
 
 end
 
-function rect_split() 
-
-	if ( event.other.name == "ball" ) then
-	
-		if ( self) then
-			local x = self.x
-			local y = self.y
+function rect_split( self, event ) 
+	print ("calling rect_split")
+	if ( event.phase == "moved"  ) then
+		print ("event phase is moved")
+		local deltaX = math.abs(event.x - event.xStart)
+		local deltaY = math.abs(event.y - event.yStart)
+		
+		if (deltaX >= 5 or deltaY >= 5) then
 			
-			spawn1 = function() return spawn_mini_rect( x-5, y ) end
-			spawn2 = function() return spawn_mini_rect( x+5, y ) end
-			
-			timer.performWithDelay(50, spawn1)
-			timer.performWithDelay(50, spawn2)
-			
-			self:removeSelf()
-			self = nil
-			
+			print ("spawning mini rects")
+			if ( self ) then
+				local x = self.x
+				local y = self.y
+				
+				spawn1 = function() return spawn_small_rect( x-5, y ) end
+				spawn2 = function() return spawn_small_rect( x+5, y ) end
+				
+				timer.performWithDelay(50, spawn1)
+				timer.performWithDelay(50, spawn2)
+				
+				self:removeSelf()
+				self = nil
+				
+			end
 		end
 	end
 
@@ -117,6 +124,9 @@ function spawn_big_rect()
 	big_rect.rotation = math.random(0, 355)
 	
 	physics.addBody( big_rect, { density = 5.0, friction = 0.2, bounce = 0.1 } )
+	
+	big_rect.touch = rect_split
+	big_rect:addEventListener("touch", big_rect)
 
 end
 
