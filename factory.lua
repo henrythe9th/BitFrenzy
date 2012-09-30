@@ -105,7 +105,7 @@ end
 
 function spawn_big_enemy()
 	
-	type = 3
+	type = math.random(1,3)
 	if ( type == 1) then
 		spawn_big_tri()
 	elseif ( type == 2 ) then

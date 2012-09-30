@@ -1,6 +1,6 @@
 module(..., package.seeall)
 
-score = 2
+score = 30
 score_text = display.newText( score, 10, 0, native.systemFont, 24 )
 
 function update( val )
