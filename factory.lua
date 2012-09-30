@@ -102,11 +102,13 @@ function rect_split( self, event )
 end
 
 function error_touch( self, event )
-	if self.isSliced == nil or self.isSliced == false then
+	--if self.isSliced == nil or self.isSliced == false then
 	--if event.phase == "ended" or event.phase == "cancelled" then
+	if self.lastSliced == nil or (os.difftime(os.time(), self.lastSliced) >= 0.15) then
 		audio.play(error_sound)
 		score.update(-1)
-		self.isSliced = true
+		--self.isSliced = true
+		self.lastSliced = os.time()
 	end
 end
 
