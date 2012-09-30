@@ -13,11 +13,10 @@ function decorate(obj, params)	--object to decorate
 	obj.ball = nil
 	obj:play()
 	
-	--if params and params.group then
-	--	params.group:insert(obj)
-	--end
+	if params and params.group then
+		--params.group:insert(obj)
+	end
 	
-	--move ship event handler
 	local stage = display.getCurrentStage()
 	
 	function moveShip(event)
@@ -82,7 +81,6 @@ function decorate(obj, params)	--object to decorate
 	
 	bullet_timer = 0
 	
-	
 	weapon1 = display.newImage("resources/button1.png", display.contentWidth - 42, display.contentHeight - 84)
 	weapon1_down = display.newImage("resources/button1_down.png", display.contentWidth - 42, display.contentHeight - 84)
 	weapon1_down.isVisible = false
@@ -99,5 +97,6 @@ function decorate(obj, params)	--object to decorate
 	Runtime:addEventListener("accelerometer", moveShip)
 	--obj:addEventListener("tap", shootBullet)
 	--Runtime:addEventListener("tap", loadBall)
+
 
 end

@@ -26,7 +26,7 @@ local slashSounds = {slash1 = audio.loadSound("slash1.wav"), slash2 = audio.load
 local slashSoundEnabled = true -- sound should be enabled by default on startup
 local minTimeBetweenSlashes = 150 -- Minimum amount of time in between each slash sound
 local minDistanceForSlashSound = 50 -- Amount of pixels the users finger needs to travel in one frame in order to play a slash sound
-local maxSlashBoundHeigh = 300 -- Max height of the area that a user can slash (measured from the top of the screen)
+local maxSlashBoundHeigh = halfH -- Max height of the area that a user can slash (measured from the top of the screen)
 local maxPoints = 5
 local lineThickness = 5
 local lineFadeTime = 200
@@ -66,8 +66,8 @@ function scene:createScene( event )
 
 	--ship
 	local player_ship = movieclip.newAnim({'shipAlarge.png', 'shipBlarge.png'})
-	Ship.decorate(player_ship, {group = group})
-	player_ship:play()
+	Ship.decorate(player_ship, { group = group})
+	
 	
 	
 	--the update function will control most everything that happens in our game
@@ -80,6 +80,7 @@ function scene:createScene( event )
 		--if score is <= 0 then game over
 		if score.isGameOver() then
 			storyboard.gotoScene("menu")
+			return true
 		end
 	
 	end
