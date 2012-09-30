@@ -59,11 +59,10 @@ function scene:createScene( event )
 	Level.decorate(group)
 	group:setup_walls()
 	
-	factory.spawn_ball()
-	timer.performWithDelay( 5000, factory.spawn_big_tri, 10 )
+	timer.performWithDelay( 5000, factory.spawn_big_enemy, 10 )
 
 	--ship
-	local player_ship = movieclip.newAnim({'shipA.png', 'shipB.png'})
+	local player_ship = movieclip.newAnim({'shipAlarge.png', 'shipBlarge.png'})
 	Ship.decorate(player_ship)
 	player_ship:play()
 	

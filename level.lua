@@ -39,9 +39,8 @@ function decorate(obj)	--object to decorate
 		end
 		
 		score_wall = display.newRect( 0, screenH - 50, screenW, 0)
-		physics.addBody( score_wall, "static", staticMaterial)
+		physics.addBody( score_wall, "static", { isSensor=true } )
 		score_wall.name = "score_wall"
-		score_wall.isSensor = true
 		score_wall:addEventListener("collision", destroy)
 		
 	end

@@ -3,7 +3,6 @@ local physics = require("physics")
 local Bullet = require("bullet")
 local Ball = require("ball")
 
-
 --decorator--------------------
 function decorate(obj)	--object to decorate
 	local screenW = display.contentWidth
@@ -17,7 +16,7 @@ function decorate(obj)	--object to decorate
 	local stage = display.getCurrentStage()
 	
 	function moveShip(event)
-		local targetX = obj.x + screenW * event.xGravity
+		local targetX = obj.x + 100 * event.xGravity
 			if targetX >= obj.width and targetX <= screenW - obj.width then
 				obj.x = targetX
 				if obj.ball ~= nil and obj.ball.isDragged == false then

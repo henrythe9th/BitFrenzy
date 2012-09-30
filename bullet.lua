@@ -30,7 +30,7 @@ function decorate(obj, params)	--object to decorate
 		local other = event.other
 		
 		--print("Bullet Collided with"..other.name) 
-		if other.name and other.name == "small_tri" then
+		if other.name and other.big == false then
 			other:removeSelf()
 			
 		end
