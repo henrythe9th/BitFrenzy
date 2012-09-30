@@ -2,8 +2,10 @@
 module(..., package.seeall)
 
 local Ball = require("ball")
-
 local physics = require "physics"
+
+local error_sound = audio.loadSound("error.wav")
+local score = require("score")
 
 function damage( self, event )
 
@@ -67,15 +69,12 @@ function square_explode( self, event )
 end
 
 function rect_split( self, event ) 
-	print ("calling rect_split")
 	if ( event.phase == "moved"  ) then
-		print ("event phase is moved")
 		local deltaX = math.abs(event.x - event.xStart)
 		local deltaY = math.abs(event.y - event.yStart)
 		
-		if (deltaX >= 5 or deltaY >= 5) then
+		if (deltaX >= 20 or deltaY >= 20) then
 			
-			print ("spawning mini rects")
 			if ( self ) then
 				local x = self.x
 				local y = self.y
@@ -94,6 +93,16 @@ function rect_split( self, event )
 	end
 
 end
+
+function error_touch( self, event )
+	if self.isSliced == nil or self.isSliced == false then
+	--if event.phase == "ended" or event.phase == "cancelled" then
+		audio.play(error_sound)
+		score.update(-1)
+		self.isSliced = true
+	end
+end
+
 
 function spawn_big_enemy()
 	
@@ -163,6 +172,9 @@ function spawn_big_tri()
 	
 	big_tri.postCollision = tri_explode
 	big_tri:addEventListener("postCollision", big_tri)
+	
+	big_tri.touch = error_touch
+	big_tri:addEventListener("touch", big_tri)
 
 end
 
@@ -202,6 +214,10 @@ function spawn_big_square()
 	
 	big_square.postCollision = square_explode
 	big_square:addEventListener("postCollision", big_square)
+	
+	big_square.touch = error_touch
+	big_square:addEventListener("touch", big_square)
+	
 end
 
 function spawn_mini_square( x, y )
