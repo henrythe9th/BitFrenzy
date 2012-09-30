@@ -15,6 +15,10 @@ function destroy ( event )
 			score.update( -1 )
 		elseif (other.name == "big_square") then
 			score.update( -3 )
+		elseif (other.name == "big_hex") then
+			score.update( -5 )
+		elseif (other.name == "small_hex") then
+			score.update ( -2 )
 		end
 		event.other:removeSelf()
 		
