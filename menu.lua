@@ -13,8 +13,9 @@ local widget = require "widget"
 --------------------------------------------
 
 local function onScreenTouch( event )
-    -- go to level1.lua scene
-	storyboard.gotoScene( "space", "slideDown", 1000 )
+    -- go to space.lua scene
+	storyboard.gotoScene( "space", "slideDown", 500 )
+	
 	return true	-- indicates successful touch	
 end
 
