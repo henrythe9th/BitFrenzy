@@ -14,7 +14,6 @@ local widget = require "widget"
 
 -- forward declarations and other locals
 local playBtn
-local instructionsBtn
 
 -- 'onRelease' event listener for playBtn
 local function onPlayBtnRelease()
@@ -25,16 +24,6 @@ local function onPlayBtnRelease()
 	return true	-- indicates successful touch
 end
 
-
-
--- 'onRelease' event listener for playBtn
-local function onInstructionsBtnRelease()
-	
-	-- go to level1.lua scene
-	storyboard.gotoScene( "instructions", "slideDown", 500 )
-	
-	return true	-- indicates successful touch
-end
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -70,26 +59,27 @@ function scene:createScene( event )
 	}
 	playBtn:setReferencePoint( display.CenterReferencePoint )
 	playBtn.x = display.contentWidth*0.5
-	playBtn.y = display.contentHeight - 125
+	playBtn.y = display.contentHeight - 30
 	
-	-- create a widget button (which will loads instructions.lua on release)
-	instructionsBtn = widget.newButton{
-		label="Instruction",
-		labelColor = { default={255}, over={128} },
-		default="button.png",
-		over="button-over.png",
-		width=154, height=40,
-		onRelease = onInstructionsBtnRelease	-- event listener function
-	}
-	instructionsBtn:setReferencePoint( display.CenterReferencePoint )
-	instructionsBtn.x = display.contentWidth*0.5
-	instructionsBtn.y = playBtn.y + 50
+	
+	local instructionsText = "Hit the object enemies to score points. Enemies that reach your ship will make you lose points.\n"
+	instructionsText = instructionsText.."Control the Ship using the accelerometer. "
+	instructionsText = instructionsText.."Press the Blue circle on the bottom right corner to load a big weapon. "
+	instructionsText = instructionsText.."Once the big weapon is loaded, drag your finger over the weapon to fling it at the enemies. "
+	instructionsText = instructionsText.."Hold the Yellow circle on the bottom right corner to fire a bullet. "
+	instructionsText = instructionsText.."Big Red Triangles and Big Green Squares must be hit by the big weapon first. "
+	instructionsText = instructionsText.."Big Yellow Rectangles must be sliced by your hands swiping the screen first. "
+	instructionsText = instructionsText.."Smaller enemies can only be destroyed by bullets.\n"
+	instructionsText = instructionsText.."Good luck and have fun!\n\n"
+	instructionsText = instructionsText.."Created by Kevin Pyc and Henry Shi\n"
+	
+	instructions = display.newText( instructionsText, 10, titleLogo.y +  80, display.contentWidth - 10, display.contentHeight - 10, native.systemFont, 14 )
 	
 	-- all display objects must be inserted into group
 	group:insert( background )
 	group:insert( titleLogo )
 	group:insert( playBtn )
-	group:insert( instructionsBtn )
+	group:insert( instructions )
 end
 
 -- Called immediately after scene has moved onscreen:
