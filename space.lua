@@ -55,7 +55,7 @@ function scene:createScene( event )
 	local background3 = display.newImage( "space.jpg" )
 	background3.x, background3.y = 160, 240
 	local background4 = display.newImage( "space.jpg" )
-	background4.x, background4.y = 160, 706
+	background4.x, background4.y = 160, 710
 	
 	--background
 	Level.decorate(group)
