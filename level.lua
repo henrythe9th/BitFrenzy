@@ -9,12 +9,16 @@ function destroy ( event )
 	if ( other and other.name ~= "bullet" and event.other.name ~= "ball" ) then
 		if (other.name == "small_tri") then
 			score.update( -1 )
-		elseif (other.name == "big_trig") then
+		elseif (other.name == "big_tri") then
 			score.update( -3 )
 		elseif (other.name == "small_square") then
 			score.update( -1 )
 		elseif (other.name == "big_square") then
 			score.update( -3 )
+		elseif (other.name == "small_rect") then
+			score.update( -1 )
+		elseif (other.name == "big_rect") then
+			score.update ( -3 )
 		end
 		
 		event.other:removeSelf()
