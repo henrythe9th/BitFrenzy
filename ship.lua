@@ -13,9 +13,7 @@ function decorate(obj, params)	--object to decorate
 	obj.ball = nil
 	obj:play()
 	
-	--if params and params.group then
-	--	params.group:insert(obj)
-	--end
+	
 	
 	--move ship event handler
 	local stage = display.getCurrentStage()
@@ -65,5 +63,9 @@ function decorate(obj, params)	--object to decorate
 	--obj:addEventListener("accelerometer", loadBall)
 	
 	Runtime:addEventListener("tap", loadBall)
+	
+	if params and params.group then
+		--params.group:insert(obj)
+	end
 
 end
