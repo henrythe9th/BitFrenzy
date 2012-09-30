@@ -2,6 +2,7 @@ module(..., package.seeall)
 local physics = require("physics")
 
 local shot = audio.loadSound('shot.mp3')
+local score = require("score")
 
 
 --decorator--------------------
@@ -29,10 +30,9 @@ function decorate(obj, params)	--object to decorate
 	function bulletCollision(event)
 		local other = event.other
 		
-		--print("Bullet Collided with"..other.name) 
 		if other.name and other.big == false then
 			other:removeSelf()
-			
+			score.update(1)
 		end
 		
 		if other.name ~= "score_wall" then

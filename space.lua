@@ -62,7 +62,7 @@ function scene:createScene( event )
 	
 	factory.setGroup( group )
 	
-	timer.performWithDelay( 5000, factory.spawn_big_enemy, 10 )
+	timer.performWithDelay( 5000, factory.spawn_big_enemy, -1 )
 
 	--ship
 	local player_ship = movieclip.newAnim({'shipAlarge.png', 'shipBlarge.png'})
@@ -78,10 +78,10 @@ function scene:createScene( event )
 		updateBackgrounds()
 		
 		--if score is <= 0 then game over
-		if score.isGameOver() then
-			storyboard.gotoScene("menu")
-			return true
-		end
+		--if score.isGameOver() then
+		--	storyboard.gotoScene("menu")
+		--	return true
+		--end
 	
 	end
 	

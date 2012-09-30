@@ -38,7 +38,7 @@ function decorate(obj, params)	--object to decorate
 		local other = event.other
 
 		if ( other.name == "score_wall" ) then 
-			return
+			obj.remove()
 		end
 		
 		if ( event.phase == "ended" ) then
