@@ -32,15 +32,26 @@ function decorate(obj, params)	--object to decorate
 	
 	function armBullet( event )
 		
+	print ( event.x )
+	print ( event.y )
+		
 		if event.phase == "began" then
+		
 			weapon2_down.isVisible = true
-			
 			shoot = function () return shootBullet(event) end
+			
 			bullet_timer = timer.performWithDelay(333, shoot, -1)
-		elseif event.phase == "ended" then
+			
+		elseif event.phase == "ended" or event.phase == "cancelled" then
 			
 			weapon2_down.isVisible = false
-		
+			timer.cancel(bullet_timer)
+		end
+	end
+	
+	function stopBullets( event )
+		if ( event.phase == "ended" ) then
+			weapon2_down.isVisible = false
 			timer.cancel(bullet_timer)
 		end
 	end
@@ -97,6 +108,7 @@ function decorate(obj, params)	--object to decorate
 	
 	system.setAccelerometerInterval( 70 )
 	Runtime:addEventListener("accelerometer", moveShip)
+	Runtime:addEventListener("touch", stopBullets)
 	--obj:addEventListener("tap", shootBullet)
 	--Runtime:addEventListener("tap", loadBall)
 
