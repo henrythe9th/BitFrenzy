@@ -12,17 +12,14 @@ local widget = require "widget"
 
 --------------------------------------------
 
--- forward declarations and other locals
-local playBtn
-
--- 'onRelease' event listener for playBtn
-local function onPlayBtnRelease()
-	
-	-- go to level1.lua scene
-	storyboard.gotoScene( "level1", "fade", 500 )
-	
-	return true	-- indicates successful touch
+local function onScreenTouch( event )
+    -- go to level1.lua scene
+	storyboard.gotoScene( "space", "slideDown", 1000 )
+	return true	-- indicates successful touch	
 end
+
+-- begin listening for screen touches
+Runtime:addEventListener( "touch", onScreenTouch )
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -37,33 +34,36 @@ function scene:createScene( event )
 	local group = self.view
 
 	-- display a background image
-	local background = display.newImageRect( "background.jpg", display.contentWidth, display.contentHeight )
-	background:setReferencePoint( display.TopLeftReferencePoint )
-	background.x, background.y = 0, 0
+	local background = display.newImage( "space.jpg" )
+	background.x, background.y = 160, 240
 	
 	-- create/position logo/title image on upper-half of the screen
-	local titleLogo = display.newImageRect( "logo.png", 264, 42 )
+	local titleLogo = display.newImageRect( "bitfrenzylogo.png", 264, 120 )
 	titleLogo:setReferencePoint( display.CenterReferencePoint )
 	titleLogo.x = display.contentWidth * 0.5
-	titleLogo.y = 100
+	titleLogo.y = 150
 	
-	-- create a widget button (which will loads level1.lua on release)
-	playBtn = widget.newButton{
-		label="Play Now",
-		labelColor = { default={255}, over={128} },
-		default="button.png",
-		over="button-over.png",
-		width=154, height=40,
-		onRelease = onPlayBtnRelease	-- event listener function
-	}
-	playBtn:setReferencePoint( display.CenterReferencePoint )
-	playBtn.x = display.contentWidth*0.5
-	playBtn.y = display.contentHeight - 125
+	local startButton = display.newImage( "startbutton.png", 200, 100)
+	startButton.x = display.contentWidth*0.5
+	startButton.y = display.contentHeight - 125
+	
+	local function1, function2
+	local trans
+
+	function function1(e)
+	  trans = transition.to(startButton,{time=1000,alpha=1, onComplete=function2})
+	end
+
+	function function2(e)
+	  trans = transition.to(startButton,{time=1000,alpha=0, onComplete=function1})
+	end
+
+	transition.to(startButton,{time=1000,alpha=0, onComplete = function1})
 	
 	-- all display objects must be inserted into group
 	group:insert( background )
 	group:insert( titleLogo )
-	group:insert( playBtn )
+	group:insert( startButton )
 end
 
 -- Called immediately after scene has moved onscreen:
@@ -86,10 +86,7 @@ end
 function scene:destroyScene( event )
 	local group = self.view
 	
-	if playBtn then
-		playBtn:removeSelf()	-- widgets must be manually removed
-		playBtn = nil
-	end
+
 end
 
 -----------------------------------------------------------------------------------------

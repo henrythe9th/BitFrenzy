@@ -30,11 +30,13 @@ function scene:createScene( event )
 
 	-- display a background image
 	local background1 = display.newImage( "space.jpg" )
-	background1.x, background1.y = 160, -760
+	background1.x, background1.y = 160, -720
 	local background2 = display.newImage( "space.jpg" )
 	background2.x, background2.y = 160, -240
 	local background3 = display.newImage( "space.jpg" )
 	background3.x, background3.y = 160, 240
+	local background4 = display.newImage( "space.jpg" )
+	background4.x, background4.y = 160, 706
 	
 	
 	--the update function will control most everything that happens in our game
@@ -51,6 +53,7 @@ function scene:createScene( event )
 		background1.y = background1.y + (0.5)
 		background2.y = background2.y + (0.5)
 		background3.y = background3.y + (0.5)
+		background4.y = background4.y + (0.5)
 
 		--if the sprite has moved off the screen move it back to the
 		--other side so it will move back on
@@ -78,6 +81,7 @@ function scene:createScene( event )
 	group:insert( background1 )
 	group:insert( background2 )
 	group:insert( background3 )
+	group:insert( background4 )
 end
 
 -- Called immediately after scene has moved onscreen:
