@@ -13,9 +13,10 @@ function decorate(obj, params)	--object to decorate
 	obj.ball = nil
 	obj:play()
 	
+	if params and params.group then
+		--params.group:insert(obj)
+	end
 	
-	
-	--move ship event handler
 	local stage = display.getCurrentStage()
 	
 	function moveShip(event)
@@ -29,15 +30,25 @@ function decorate(obj, params)	--object to decorate
 		return true
 	end
 	
+	function armBullet( event )
+		
+		if event.phase == "began" then
+			shoot = function () return shootBullet(event) end
+			bullet_timer = timer.performWithDelay(333, shoot, -1)
+		elseif event.phase == "ended" then
+			timer.cancel(bullet_timer)
+		end
+	end
+	
 	--shoot bullet
-	function shootBullet(event)
+	function shootBullet( event)
 		local ship_bullet = display.newImage('bullet.png')
 		Bullet.decorate(ship_bullet, { x = obj.x, y = obj.y - obj.height + 10})
 	end
 	
 	--load Ball weapon
-	function loadBall(event)
-		if event.numTaps == 2 then
+	function loadBall( event )
+		if event.phase == "ended" then
 			--the tap must not occure on the ship and must occur near the bottom of the screen
 			if (event.x < obj.x or event.x > obj.x+obj.width)
 				and (event.y < obj.y or event.y > obj.y + obj.height) and event.y >= obj.y - 50 then
@@ -52,20 +63,28 @@ function decorate(obj, params)	--object to decorate
 --destroy--------------------
 	function obj:remove()
 		Runtime:removeEventListener("accelerometer", moveShip)
-		obj:removeEventListener("tap", shootBullet)
-		Runtime:removeEventListener("tap", loadBall)
+		weapon1:removeEventListener("touch", loadBall)
+		weapon2:removeEventListener("touch", armBullet)
+		weapon1:removeSelf()
+		weapon2:removeSelf()
 		obj:removeSelf()
 	end
 	
-	system.setAccelerometerInterval( 100 )
-	Runtime:addEventListener("accelerometer", moveShip)
-	obj:addEventListener("tap", shootBullet)
-	--obj:addEventListener("accelerometer", loadBall)
+	bullet_timer = 0
 	
 	Runtime:addEventListener("tap", loadBall)
 	
-	if params and params.group then
-		--params.group:insert(obj)
-	end
+
+	weapon1 = display.newImage("resources/button1.png", display.contentWidth - 42, display.contentHeight - 84)
+	weapon2 = display.newImage("resources/button2.png", display.contentWidth - 42, display.contentHeight - 42)
+	
+	weapon1:addEventListener("touch", loadBall)
+	weapon2:addEventListener("touch", armBullet)
+	
+	system.setAccelerometerInterval( 70 )
+	Runtime:addEventListener("accelerometer", moveShip)
+	--obj:addEventListener("tap", shootBullet)
+	--Runtime:addEventListener("tap", loadBall)
+
 
 end

@@ -7,6 +7,13 @@ local physics = require "physics"
 local error_sound = audio.loadSound("error.wav")
 local score = require("score")
 
+
+function setGroup( g )
+
+	group = g
+
+end
+
 function damage( self, event )
 
 	print ( self.dmg )
@@ -79,8 +86,8 @@ function rect_split( self, event )
 				local x = self.x
 				local y = self.y
 				
-				spawn1 = function() return spawn_small_rect( x-5, y ) end
-				spawn2 = function() return spawn_small_rect( x+5, y ) end
+				spawn1 = function() return spawn_mini_rect( x-5, y ) end
+				spawn2 = function() return spawn_mini_rect( x+5, y ) end
 				
 				timer.performWithDelay(50, spawn1)
 				timer.performWithDelay(50, spawn2)
@@ -137,22 +144,28 @@ function spawn_big_rect()
 	big_rect.touch = rect_split
 	big_rect:addEventListener("touch", big_rect)
 
+	group:insert( big_rect )
+
+
 end
 
-function spawn_small_rect( x, y )
+function spawn_mini_rect( x, y )
 	math.randomseed( os.time() )
 
-	small_rect = display.newRect( x, y, 35, 16 )
-	small_Rect.rotation = math.random(0, 355)
-	small_rect.name = "small_rect"
-	small_rect.big = false
+	rect = display.newRect( x, y, 35, 20 )
+	rect:setFillColor( 255, 255, 0 )
+	rect.rotation = math.random(0, 355)
+	rect.name = "small_rect"
+	rect.big = false
 	
-	physics.addBody( small_rect , { density=1.0, friction=0.3, bounce=0.2 } )
+	physics.addBody( rect , { density=1.0, friction=0.3, bounce=0.2 } )
 	
 	local x_i = math.random(-10, 10)
-	local y_i = math.random(-10, 10)
+	local y_i = math.random(-10, 5)
 	
-	small_rect:applyLinearImpulse( x_i, y_i, small_rect.x, small_rect.y )
+	rect:applyLinearImpulse( x_i, y_i, rect.x, rect.y )
+	
+	group:insert( rect )
 
 end
 
@@ -172,9 +185,9 @@ function spawn_big_tri()
 	
 	big_tri.postCollision = tri_explode
 	big_tri:addEventListener("postCollision", big_tri)
-	
 	big_tri.touch = error_touch
 	big_tri:addEventListener("touch", big_tri)
+	group:insert( big_tri )
 
 end
 
@@ -193,6 +206,8 @@ function spawn_mini_tri( x, y )
 	local x_i = math.random(-10, 10)
 	local y_i = math.random(-10, 10)
 	tri:applyLinearImpulse( x_i, y_i, tri.x, tri.y )
+	
+	group:insert( tri )
 	
 end
 
@@ -214,10 +229,11 @@ function spawn_big_square()
 	
 	big_square.postCollision = square_explode
 	big_square:addEventListener("postCollision", big_square)
-	
 	big_square.touch = error_touch
 	big_square:addEventListener("touch", big_square)
-	
+
+	group:insert( big_square )
+
 end
 
 function spawn_mini_square( x, y )
@@ -235,6 +251,8 @@ function spawn_mini_square( x, y )
 	local x_i = math.random(-10, 10)
 	local y_i = math.random(-10, 10)
 	square:applyLinearImpulse( x_i, y_i, square.x, square.y )
+	
+	group_insert( square )
 	
 end
 

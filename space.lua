@@ -60,11 +60,14 @@ function scene:createScene( event )
 	Level.decorate(group)
 	group:setup_walls()
 	
+	factory.setGroup( group )
+	
 	timer.performWithDelay( 5000, factory.spawn_big_enemy, 10 )
 
 	--ship
 	local player_ship = movieclip.newAnim({'shipAlarge.png', 'shipBlarge.png'})
 	Ship.decorate(player_ship, { group = group})
+	
 	
 	
 	--the update function will control most everything that happens in our game
@@ -116,6 +119,7 @@ function scene:createScene( event )
 	group:insert( background2 )
 	group:insert( background3 )
 
+	group:insert( player_ship )
 end
 
 --Slashing Events
@@ -167,7 +171,6 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-	
 	physics.start()
 	
 end
@@ -177,7 +180,6 @@ function scene:exitScene( event )
 	local group = self.view
 	
 	physics.stop()
-	
 	
 end
 
