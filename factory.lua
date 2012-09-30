@@ -42,17 +42,17 @@ function tri_explode( self, event )
 	end
 end
 
-function hex_explode( self, event ) 
+function square_explode( self, event ) 
 
 	if ( event.other.name == "ball" ) then
 	
 		if ( self ) then
 			local x = self.x
 			local y = self.y
-			local spawn1 = function() return spawn_mini_hex( x, y ) end
-			local spawn2 = function() return spawn_mini_hex( x+5, y) end
-			local spawn3 = function() return spawn_mini_hex( x-5, y ) end
-			local spawn4 = function() return spawn_mini_hex( x, y-5) end
+			local spawn1 = function() return spawn_mini_square( x, y ) end
+			local spawn2 = function() return spawn_mini_square( x+5, y) end
+			local spawn3 = function() return spawn_mini_square( x-5, y ) end
+			local spawn4 = function() return spawn_mini_square( x, y-5) end
 			
 			timer.performWithDelay(50, spawn1)
 			timer.performWithDelay(50, spawn2)
@@ -72,7 +72,7 @@ function spawn_big_enemy()
 	if ( type == 1) then
 		spawn_big_tri()
 	elseif ( type == 2 ) then
-		spawn_big_hex()
+		spawn_big_square()
 	end
 	
 end
@@ -109,33 +109,33 @@ function spawn_mini_tri( x, y )
 	
 end
 
-function spawn_big_hex()
-	big_hex = display.newImage( "resources/hex_large.png" )
-	big_hex.name = "big_hex"
-	big_hex.big = true
+function spawn_big_square()
+	big_square = display.newImage( "resources/square_large.png" )
+	big_square.name = "big_square"
+	big_square.big = true
 	
 	x = math.random(50, display.contentWidth-50)
 	y = math.random(20, 50)
-	big_hex.x, big_hex.y = x, y
+	big_square.x, big_square.y = x, y
 	
-	physics.addBody( big_hex, { density = 5.0, friction=0.3, bounce = 0.1 } )
+	physics.addBody( big_square, { density = 5.0, friction=0.3, bounce = 0.1 } )
 	
-	big_hex.postCollision = hex_explode
-	big_hex:addEventListener("postCollision", big_hex)
+	big_square.postCollision = square_explode
+	big_square:addEventListener("postCollision", big_square)
 end
 
-function spawn_mini_hex( x, y )
-	hex = display.newImage( "resources/hex_small.png", 32, 32 )
-	hex.x, hex.y = x, y
-	hex.rotation = math.random(0,355)
-	hex.name = "small_hex"
-	hex.big = false
+function spawn_mini_square( x, y )
+	square = display.newImage( "resources/square_small.png", 32, 32 )
+	square.x, square.y = x, y
+	square.rotation = math.random(0,355)
+	square.name = "small_square"
+	square.big = false
 	
-	physics.addBody( hex, { density=1.0, friction=0.3, bounce=0.3 } )
+	physics.addBody( square, { density=1.0, friction=0.3, bounce=0.3 } )
 	
 	local x_i = math.random(-10, 10)
 	local y_i = math.random(-10, 10)
-	hex:applyLinearImpulse( x_i, y_i, hex.x, hex.y )
+	square:applyLinearImpulse( x_i, y_i, square.x, square.y )
 	
 end
 
